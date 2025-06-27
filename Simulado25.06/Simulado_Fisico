@@ -1,0 +1,127 @@
+/* Simulado_Logico: */
+
+CREATE TABLE User (
+    Subscription_data Date,
+    Name String,
+    Email String,
+    Viewing_history String,
+    ID_user Number PRIMARY KEY,
+    CEP Number,
+    Number Number,
+    Country String
+);
+
+CREATE TABLE Film (
+    Title String,
+    Gender String,
+    Year_of_release Date,
+    Duration Number,
+    Indicative_rating Number,
+    Director String,
+    Actor String,
+    ID_film Number PRIMARY KEY
+);
+
+CREATE TABLE Gender (
+    ID_gender Number PRIMARY KEY,
+    Comedy Number,
+    Drama String,
+    Action String
+);
+
+CREATE TABLE Director (
+    ID_actor Number PRIMARY KEY,
+    Name String,
+    Nationality String,
+    Date_of_birth Date
+);
+
+CREATE TABLE Premium (
+    No_Adsvertisements BOOLEAN,
+    Unlimited_Playlist BOOLEAN,
+    fk_User_ID_user Number PRIMARY KEY
+);
+
+CREATE TABLE Basic (
+    Has_advertisements BOOLEAN,
+    Limited_access BOOLEAN,
+    fk_User_ID_user Number PRIMARY KEY
+);
+
+CREATE TABLE People_Actor (
+    Quantity Number,
+    ID_actor Number PRIMARY KEY,
+    Name String,
+    Date_of_birth Date,
+    Nationality String,
+    fk_Film_ID_film Number
+);
+
+CREATE TABLE Episode (
+    ID_Episode Number PRIMARY KEY,
+    Duraction Number,
+    Release_date Date
+);
+
+CREATE TABLE Rating_Watched (
+    Date Date,
+    Comment String,
+    Note Number,
+    fk_Film_ID_film Number,
+    fk_User_ID_user Number
+);
+
+CREATE TABLE Playlist_Watch (
+    Creation_date Date,
+    Name String,
+    fk_User_ID_user Number,
+    fk_Film_ID_film Number
+);
+
+CREATE TABLE Series_Watch (
+    Quantity Number,
+    fk_Film_ID_film Number,
+    fk_Episode_ID_Episode Number
+);
+ 
+ALTER TABLE Gender ADD CONSTRAINT FK_Gender_2
+    FOREIGN KEY (Comedy)
+    REFERENCES Film (ID_film);
+ 
+ALTER TABLE Premium ADD CONSTRAINT FK_Premium_2
+    FOREIGN KEY (fk_User_ID_user)
+    REFERENCES User (ID_user)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE Basic ADD CONSTRAINT FK_Basic_2
+    FOREIGN KEY (fk_User_ID_user)
+    REFERENCES User (ID_user)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE People_Actor ADD CONSTRAINT FK_People_Actor_2
+    FOREIGN KEY (fk_Film_ID_film)
+    REFERENCES Film (ID_film);
+ 
+ALTER TABLE Rating_Watched ADD CONSTRAINT FK_Rating_Watched_1
+    FOREIGN KEY (fk_Film_ID_film)
+    REFERENCES Film (ID_film);
+ 
+ALTER TABLE Rating_Watched ADD CONSTRAINT FK_Rating_Watched_2
+    FOREIGN KEY (fk_User_ID_user)
+    REFERENCES User (ID_user);
+ 
+ALTER TABLE Playlist_Watch ADD CONSTRAINT FK_Playlist_Watch_1
+    FOREIGN KEY (fk_User_ID_user)
+    REFERENCES User (ID_user);
+ 
+ALTER TABLE Playlist_Watch ADD CONSTRAINT FK_Playlist_Watch_2
+    FOREIGN KEY (fk_Film_ID_film)
+    REFERENCES Film (ID_film);
+ 
+ALTER TABLE Series_Watch ADD CONSTRAINT FK_Series_Watch_1
+    FOREIGN KEY (fk_Film_ID_film)
+    REFERENCES Film (ID_film);
+ 
+ALTER TABLE Series_Watch ADD CONSTRAINT FK_Series_Watch_2
+    FOREIGN KEY (fk_Episode_ID_Episode)
+    REFERENCES Episode (ID_Episode);
